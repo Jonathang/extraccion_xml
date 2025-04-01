@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<datos>
+    <persona>
+        <id>50</id>
+        <nombre>Alejandro</nombre>
+        <apellidoPaterno>Gamez</apellidoPaterno>
+        <apellidoMaterno>Juarez</apellidoMaterno>
+        <fechaNacimiento>25-01-1969</fechaNacimiento>
+        <curp>JUGAHFOSNDDSAS01</curp>
+        <direccion>
+            <calle>rol de canela</calle>
+            <colonia>bosques</colonia>
+            <municipio>Azcapotzalco</municipio>
+            <entidad>CDMX</entidad>
+            <codigoPostal>01010</codigoPostal>
+        </direccion>
+    </persona>
+    <persona>
+        <id>51</id>
+        <nombre>Maria</nombre>
+        <apellidoPaterno>Alejandri</apellidoPaterno>
+        <apellidoMaterno>Vallejo</apellidoMaterno>
+        <fechaNacimiento>02-03-1999</fechaNacimiento>
+        <curp>VAAMSFEAFGFASFAS03</curp>
+        <direccion>
+            <calle>Masiosares</calle>
+            <colonia>arbol</colonia>
+            <municipio>dia</municipio>
+            <entidad>CDMX</entidad>
+            <codigoPostal>02020</codigoPostal>
+        </direccion>
+    </persona>
+</datos>
