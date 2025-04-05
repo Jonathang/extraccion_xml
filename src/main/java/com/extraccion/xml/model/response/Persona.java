@@ -1,36 +1,30 @@
 package com.extraccion.xml.model.response;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * Objeto de solicitud que representa los datos la persona
+ *
+ * @Data Genera automáticamente getters, setters, equals, hashCode y toString (Lombok)
+ * @AllArgsConstructor Constructor con todos los campos (Lombok)
+ * @Builder Patrón de construcción flexible (Lombok)
+ *
+ * @author Jonathan Garcia
+ * @version 1.0.0
+ * @since 05-04-2025
+ */
 @Data
 @AllArgsConstructor
 @Builder
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Persona {
 
-    @XmlElement(name = "id")
-    private String id;
-
-    @XmlElement(name = "nombre")
+    private Long id;
     private String nombre;
-
-    @XmlElement(name = "apellidoPaterno")
     private String apellidoPaterno;
-
-    @XmlElement(name = "apellidoMaterno")
     private String apellidoMaterno;
-
-    @XmlElement(name = "fechaNacimiento")
     private String fechaNacimiento;
-
-    @XmlElement(name = "curp")
     private String curp;
-
-    @XmlElement
     private Direccion direccion;
 }

@@ -1,5 +1,25 @@
+# Configuración del puerto
 server:
-  port: 10500
+  port: 10500 # Numero de puerto
+# Configuración de información de la aplicación (tomada del pom.xml)
+info:
+  app:
+    name: @project.artifactId@  # Nombre del artefacto del POM
+    version: @project.version@  # Versión del POM (1.0.0, etc.)
+    description: @project.description@  # Descripción del POM
 spring:
   application:
     name: xml
+  mvc:
+    servlet:
+      path: /api
+management:
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: monitor
