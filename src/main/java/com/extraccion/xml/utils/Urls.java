@@ -12,4 +12,7 @@ public class Urls {
     public final static String V1 = "/v1";
     public final static String BUSQUEDAS = "/busquedas";
     public final static String MONITOR = "/monitor";
+
+    public Urls() {
+    }
 }

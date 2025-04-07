@@ -1,4 +1,4 @@
-package com.extraccion.xml.utils.Exepciones;
+package com.extraccion.xml.utils.exepciones;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

@@ -3,7 +3,7 @@ package com.extraccion.xml.controller;
 import com.extraccion.xml.model.request.RequestIdentificador;
 import com.extraccion.xml.model.response.ResponseBusqueda;
 import com.extraccion.xml.service.impl.XmlBusquedaServiceImpl;
-import com.extraccion.xml.utils.Exepciones.ResponseService;
+import com.extraccion.xml.utils.exepciones.ResponseService;
 import com.extraccion.xml.utils.Urls;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping(Urls.V1)
-public class xmlController {
+public class XmlController {
 
-    private static final Logger logger = LogManager.getLogger(xmlController.class);
+    private static final Logger logger = LogManager.getLogger(XmlController.class);
     /**
      * Servicio de busqueda de clientes en formato XML
      */

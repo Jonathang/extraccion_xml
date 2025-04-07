@@ -44,31 +44,38 @@ public class Documento {
     private Document cachedDocument;
 
     /**
-     * Obtiene el documento xml
+     *  Método protegido para permitir mocking en tests
      *
-     * Configura el parser XML para:
-     * <ul>
-     *   <li> @code setNamespaceAware Ser consciente de namespaces</li>
-     *   <li> @code setIgnoringComments Ignorar comentarios</li>
-     *   <li> @code setIgnoringElementContentWhitespace Ignorar espacios en blanco</li>
-     * </ul>
+     * @return regresa el xml como respuesta
+     */
+    protected ClassPathResource getClassPathResource() {
+        return new ClassPathResource("cliente.xml");
+    }
+
+    /**
+     *  Método protegido para permitir mocking en tests
      *
-     * @return regresa el documento cargado
-     * @throws Exception Si ocurre un error al cargar o parsear el archivo
-     * @implNote El archivo se busca en el classpath como "cliente.xml"
+     * @return la construccion del documento
+     */
+    protected DocumentBuilderFactory createDocumentBuilderFactory() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        factory.setIgnoringComments(true);
+        factory.setIgnoringElementContentWhitespace(true);
+        return factory;
+    }
+
+    /**
+     * Metodo para obtener el documento y validar si es vacio
+     * tambien pérmite guardalo en memoria cache para una consulta mas rapida
+     *
+     * @return regresa el documento en cache
+     * @throws Exception para validar errores
      */
     public Document getDocument() throws Exception {
         if (cachedDocument == null) {
-            ClassPathResource resource = new ClassPathResource("cliente.xml");
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-
-            // Configuración para mejor manejo de XML
-            factory.setNamespaceAware(true);
-            factory.setIgnoringComments(true);
-            factory.setIgnoringElementContentWhitespace(true);
-
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            cachedDocument = builder.parse(resource.getInputStream());
+            DocumentBuilder builder = createDocumentBuilderFactory().newDocumentBuilder();
+            cachedDocument = builder.parse(getClassPathResource().getInputStream());
         }
         return cachedDocument;
     }
@@ -99,6 +106,22 @@ public class Documento {
     }
 
     /**
+     * Obtiene un elemento de la lista
+     *
+     * @param parent elemento padre
+     * @param tagName nombre del tag
+     * @return Contenido de texto del primer elemento encontrado o {@code null} si no existe
+     */
+    String getElementValue(Element parent, String tagName) {
+        NodeList nodeList = parent.getElementsByTagName(tagName);
+        // Verifica si nodeList es null o si no hay elementos
+        if (nodeList != null && nodeList.getLength() > 0) {
+            return nodeList.item(0).getTextContent();
+        }
+        return null;
+    }
+
+    /**
      * Construye el objeto con builder de la persona encontrada
      * <p>
      * Mapea los siguientes campos:
@@ -114,7 +137,7 @@ public class Documento {
      */
     public Persona buildPersonaFromElement(Element personaElement) {
         return Persona.builder()
-                .id(Long.parseLong(getElementValue(personaElement, "id")))
+                .id(parseLong(getElementValue(personaElement, "id")))
                 .nombre(getElementValue(personaElement, "nombre"))
                 .apellidoPaterno(getElementValue(personaElement, "apellidoPaterno"))
                 .apellidoMaterno(getElementValue(personaElement, "apellidoMaterno"))
@@ -122,18 +145,6 @@ public class Documento {
                 .curp(getElementValue(personaElement, "curp"))
                 .direccion(extractAddress(personaElement))
                 .build();
-    }
-
-    /**
-     * Obtiene un elemento de la lista
-     *
-     * @param parent elemento padre
-     * @param tagName nombre del tag
-     * @return Contenido de texto del primer elemento encontrado o {@code null} si no existe
-     */
-    private String getElementValue(Element parent, String tagName) {
-        NodeList nodeList = parent.getElementsByTagName(tagName);
-        return nodeList.getLength() > 0 ? nodeList.item(0).getTextContent() : null;
     }
 
     /**
@@ -150,7 +161,7 @@ public class Documento {
      * @param personaElement elemento xml de una persona
      * @return retorna el objeto construido de la direccion
      */
-    private Direccion extractAddress(Element personaElement) {
+    Direccion extractAddress(Element personaElement) {
         NodeList direccionNodes = personaElement.getElementsByTagName("direccion");
         if (direccionNodes.getLength() == 0) return null;
 
@@ -163,5 +174,27 @@ public class Documento {
                 .entidad(getElementValue(direccionElement, "entidad"))
                 .codigoPostal(getElementValue(direccionElement, "codigoPostal"))
                 .build();
+    }
+
+    /**
+     * Convierte una cadena de texto a un valor {@link Long}
+     * <p>
+     * Si el valor es {@code null} o está vacío, se retorna {@code null}.
+     * Si el valor no representa un número válido, lanza una {@link IllegalArgumentException}.
+     * </p>
+     *
+     * @param value cadena de texto a convertir
+     * @return valor numérico de tipo {@code Long} o {@code null} si el valor es nulo o vacío
+     * @throws IllegalArgumentException si el valor no puede convertirse a número
+     */
+    private Long parseLong(String value) {
+        if (value == null || value.isEmpty()) {
+            return null;
+        }
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("El valor no es un número válido: " + value, e);
+        }
     }
 }

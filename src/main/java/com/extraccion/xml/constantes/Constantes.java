@@ -23,4 +23,6 @@ public class Constantes {
     public static final  String ERROR_XML_ID = "Error al procesar XML para ID: {}";
     public static final  String ERROR_XML = "Error al procesar el XML";
 
+    public Constantes() {
+    }
 }
