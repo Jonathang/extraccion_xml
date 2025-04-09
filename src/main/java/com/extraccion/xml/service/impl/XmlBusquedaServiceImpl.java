@@ -3,6 +3,7 @@ package com.extraccion.xml.service.impl;
 import com.extraccion.xml.constantes.Constantes;
 import com.extraccion.xml.model.response.ResponseBusqueda;
 import com.extraccion.xml.service.XmlBusquedaService;
+import com.extraccion.xml.utils.archivos.BusquedaDocumento;
 import com.extraccion.xml.utils.archivos.Documento;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,6 +33,8 @@ public class XmlBusquedaServiceImpl implements XmlBusquedaService {
      */
     @Autowired
     private Documento file;
+    @Autowired
+    private BusquedaDocumento busqueda;
 
     /**
      * Implementación que busca una persona por ID en un archivo XML
@@ -60,14 +63,14 @@ public class XmlBusquedaServiceImpl implements XmlBusquedaService {
             }
 
             Document document = file.getDocument();
-            Node personaNode = file.findPersonNodeById(document, id);
+            Node personaNode = busqueda.findPersonNodeById(document, id);
 
             if (personaNode == null) {
                 logger.info(Constantes.NO_ENCONTRO, id);
                 return null;
             }
 
-            return file.buildResponseFromNode((Element) personaNode);
+            return busqueda.buildResponseFromNode((Element) personaNode);
 
         } catch (Exception e) {
             logger.error(Constantes.ERROR_XML_ID, id, e);

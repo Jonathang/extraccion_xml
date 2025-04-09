@@ -23,3 +23,5 @@ management:
       base-path: /
       path-mapping:
         health: monitor
+config:
+  ruta: cliente.xml

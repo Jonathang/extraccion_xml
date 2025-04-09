@@ -22,6 +22,8 @@ public class Constantes {
     public static final  String NO_ENCONTRO = "No se encontró persona con ID: {}";
     public static final  String ERROR_XML_ID = "Error al procesar XML para ID: {}";
     public static final  String ERROR_XML = "Error al procesar el XML";
+    public static final  String DATA_NOT_FOUND = "No se encontraron datos para el ID proporcionado.";
+
 
     public Constantes() {
     }

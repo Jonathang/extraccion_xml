@@ -31,6 +31,15 @@ public class ResponseService {
         return ResponseEntity.ok().body(response);
     }
 
+    // Método para crear una respuesta de error
+    public static ResponseEntity<ApiResponse> errorResponse(Object errorMessage) {
+        ApiResponse response = new ApiResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "Error al procesar el xml",
+                errorMessage);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
     /**
      * Crea las variables de la respuesta con su respectivo constructor
      */

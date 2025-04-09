@@ -1,5 +1,6 @@
 package com.extraccion.xml.controller;
 
+import com.extraccion.xml.constantes.Constantes;
 import com.extraccion.xml.model.request.RequestIdentificador;
 import com.extraccion.xml.model.response.ResponseBusqueda;
 import com.extraccion.xml.service.impl.XmlBusquedaServiceImpl;
@@ -44,22 +45,35 @@ public class XmlController {
      *           <li><b>Cuerpo:</b> {@link ResponseService.ApiResponse} que encapsula
      *               los datos de {@link ResponseBusqueda}.</li>
      *         </ul>
-     *
      * @see ResponseService#successResponse(Object)
+     * @return {@link ResponseEntity} con formato estándar de respuesta:
+     *         <ul>
+     *           <li><b>Código HTTP:</b> 404 (NOT_FOUND) si el identificador no existe.</li>
+     *           <li><b>Cuerpo:</b> {@link ResponseService.ApiResponse} que encapsula
+     *               los datos de {@link ResponseBusqueda}.</li>
+     *         </ul>
+     *
+     * @see ResponseService#errorResponse(Object)
      *
      * @PostMapping(Urls.BUSQUEDAS)  // Ruta: /v1/busquedas (depende de Urls.BUSQUEDAS)
      */
     @PostMapping(Urls.BUSQUEDAS)
-    public ResponseEntity<ResponseService.ApiResponse> buscarDatosSociodemograficos (
-            @Validated @RequestBody RequestIdentificador request ){
+    public ResponseEntity<ResponseService.ApiResponse> buscarDatosSociodemograficos(
+            @Validated @RequestBody RequestIdentificador request) throws Exception {
 
         /**
-         * solicita un id y realiza una busqueda dentro del archivo xml
-         * para extraer los datos sociodemograficos del cliente identificado
+         * Solicita un ID y realiza una búsqueda dentro del archivo XML
+         * para extraer los datos sociodemográficos del cliente identificado.
          */
-        ResponseBusqueda respuesta =
-                    personaXMLService.buscarPersonaPorId(request.getId());
+        ResponseBusqueda respuesta = personaXMLService.buscarPersonaPorId(request.getId());
 
-      return ResponseService.successResponse(respuesta);
+        // Validar si no se encuentra la persona en el archivo XML
+        if (respuesta == null) {
+            // Retorna una respuesta con un error si no se encuentra la persona
+            return ResponseService.errorResponse(Constantes.DATA_NOT_FOUND);
+        }
+
+        // Si se encuentra la persona, devuelve la respuesta exitosa
+        return ResponseService.successResponse(respuesta);
     }
 }

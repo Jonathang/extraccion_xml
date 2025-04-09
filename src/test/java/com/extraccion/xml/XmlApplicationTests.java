@@ -9,8 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class XmlApplicationTests {
 
 	@Test
-	public void mainTest() {
-		// Verifica que el método main puede ejecutarse sin errores
-		assertDoesNotThrow(() -> XmlApplication.main(new String[] {}));
+	void contextLoads() {
+		// Si la aplicación no arranca correctamente, esta prueba fallará
 	}
 }
